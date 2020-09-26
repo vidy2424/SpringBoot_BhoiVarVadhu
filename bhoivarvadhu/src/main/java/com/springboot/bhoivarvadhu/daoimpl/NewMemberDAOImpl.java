@@ -8,17 +8,24 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.springboot.bhoivarvadhu.dao.NewMemberDAO;
+import com.springboot.bhoivarvadhu.dao.UserDAO;
 import com.springboot.bhoivarvadhu.dto.RegisterForm;
+import com.springboot.bhoivarvadhu.dto.TeamMembers;
 import com.springboot.bhoivarvadhu.dto.User;
   
 @Repository("NewMemberDAO")
 @Transactional
 public class NewMemberDAOImpl implements NewMemberDAO {
 
+	@Autowired
+	private UserDAO userDAO;
+	
 	@PersistenceContext
 	@Autowired
 	private EntityManager em;
@@ -80,13 +87,7 @@ public class NewMemberDAOImpl implements NewMemberDAO {
 //		return em.createQuery(query, User.class).setParameter("id", id).getResultList();
 //	}
 
-	@Override
-	public List<User> getAllNewMember(int start) {
-		String query = "FROM User  ORDER BY id DESC ";
-
-		return em.createQuery(query, User.class).getResultList();
-	}
-	
+ 
 //	@Override
 //	public List<User> getAllUser1() {
 //		String query = "SELECT Count(*) FROM User ";
@@ -95,14 +96,14 @@ public class NewMemberDAOImpl implements NewMemberDAO {
 //	}
 
 	@Override
-	public long getNewMemberCount() {
+	public long getGroomCount() {
 		Query queryTotal = em.createQuery("Select count(f.id) from User f WHERE Groom_Bride = 'groom'");
 		long countResult = (long) queryTotal.getSingleResult();
 		// System.out.println("Total Count :" +countResult);
 		return countResult;
 	}
 
-	@Override
+	@Override 
 	public long getBrideCount() {
 		Query queryTotal = em.createQuery("Select count(f.id) from User f WHERE Groom_Bride = 'bride'");
 		long countResult = (long) queryTotal.getSingleResult();
@@ -111,8 +112,8 @@ public class NewMemberDAOImpl implements NewMemberDAO {
 	}
 	
 	
- 
 	
+ 	
 	@Override
 	public List<User> getAllBrides(int start) {
 		
@@ -125,6 +126,7 @@ public class NewMemberDAOImpl implements NewMemberDAO {
  				.setMaxResults(5)
 				.getResultList(); 
 	}
+	
  	@Override
 	public List<User> getAllGrooms(int start) {
 		
@@ -137,7 +139,27 @@ public class NewMemberDAOImpl implements NewMemberDAO {
 				.getResultList(); 
 	}
 	
+	@Override
+	public List<User> getAllMember(int start) {
+		
+		
+		String query = "FROM User ORDER BY dateTime DESC";
  
+ 
+ 		return em.createQuery(query, User.class)
+				.setFirstResult((start - 1) * 20)
+ 				.setMaxResults(20)
+				.getResultList(); 
+	}
+
+	@Override
+	public List<User> getAllMemberCount(int start) {
+		String query = "FROM User ORDER BY dateTime DESC";
+ 		return em.createQuery(query, User.class)
+			 	.getResultList();
+	}
+ 	
+ 	
 	@Override
 	public List<User> getsearchresults(String[] targetArray) {
 	    System.out.println("targetArrayImpl : " + targetArray);
@@ -221,10 +243,35 @@ public class NewMemberDAOImpl implements NewMemberDAO {
 					.createQuery(query,User.class)
 					.setParameter("id",id)	
 					.getResultList();
-	 }	
+	 }
+
+	
+	public int updateClickCounts() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userDAO.getByEmail(authentication.getName());
+		
+		int logingID = user.getId();
+		System.out.println("logingcity" + logingID);
+		
+	 	int clickCount = 0;
+ 
+		System.out.println("clicksImpl : " + clickCount);
+ 	
+		User userInfo= (User)em.find(User.class ,logingID);
+		userInfo.setClickCount(clickCount);
+		return clickCount;
+		
+	}
+	
 	
 	@Override
 	public RegisterForm getid(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<User> getAllNewMember(int start) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -234,5 +281,11 @@ public class NewMemberDAOImpl implements NewMemberDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+	@Override
+	public long getNewMemberCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}	
+ 	
 }

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.springboot.bhoivarvadhu.dao.AdminSearchDAO;
 import com.springboot.bhoivarvadhu.dao.UserDAO;
 import com.springboot.bhoivarvadhu.dto.User;
 import com.springboot.bhoivarvadhu.dto.Userinfo;
@@ -40,6 +41,9 @@ public class PageController {
 	private UserDAO userDAO;
 
 	@Autowired
+	private AdminSearchDAO adminSearchDAO;
+	
+	@Autowired
 	private Userinfosplit split;
 
 	@Autowired
@@ -50,26 +54,9 @@ public class PageController {
 	public PageController(JwtTokenRepository jwtTokenRepository) {
 		this.jwtTokenRepository = jwtTokenRepository;
 	}
-
-//	@SuppressWarnings("resource")
-//	public PageController() throws UnknownHostException {
-//		client = new PreBuiltTransportClient(Settings.EMPTY)
-//				.addTransportAddress(new InetSocketTransportAddress(InetAddress
-//						.getByName("localhost"), 9300));
-//	} 
-
-	@PostMapping(value = "/membershipdetail")
+ 	@PostMapping(value = "/membershipdetail")
 	public String register(@RequestBody Userinfo userinfo) {
-
-		// System.out.println("userdetail " + userinfo.getAddressLineOne());
-
-//		User user = split.userdetails(userinfo);
-		// Address address = split.addressdetails(userinfo);
-//		split.saveuserAll(user);
-		/*
-		 * RegisterHandler handler = new RegisterHandler(); handler.addUser(user);
-		 * handler.addBilling(address); handler.saveAll();
-		 */
+ 
 //		System.out.println("userdetail " + user);
 
 		logger.info("Page Controller membership called!");
@@ -83,13 +70,8 @@ public class PageController {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		// System.out.println("authentication ===" + authentication);
-
-		// System.out.println("request ===" + request.getHeader("Authorization"));
-		// String blackListToken = request.getHeader("Authorization");
-		// System.out.println("exist ===" + jwtTokenRepository.exist(blackListToken));
-
-		// Boolean keyBlacklist = jwtTokenRepository.exist(blackListToken);
-
+ 		// Boolean keyBlacklist = jwtTokenRepository.exist(blackListToken);
+ 		
 		// if(request.getHeader("Authorization") != null && !keyBlacklist) {
 		// System.out.println(authentication.getName());
 		User user = userDAO.getByEmail(authentication.getName());
@@ -141,7 +123,7 @@ public class PageController {
 		userdetailMap.put("other_Expectation", user.getOther_Expectation());
 		userdetailMap.put("role", user.getRole());
 		userdetailMap.put("code", user.getCode());
-		
+		userdetailMap.put("clickCount", user.getClickCount());		
 		
 		
 		return userdetailMap;

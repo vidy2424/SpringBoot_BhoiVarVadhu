@@ -105,9 +105,24 @@ public class NewMemberController {
 			mProduct.setAge(newage);
 			;
 
+			String LookingGroomOrBride = mProduct.getGroom_Bride();
+ 			
+			String groom = "groom";
+			
+			if(LookingGroomOrBride.equals(groom)) {
+				String female = "female";
+				mProduct.setGender(female);
+				System.out.print(female);
+			}else {
+				String male = "male";
+				mProduct.setGender(male);
+				System.out.print(male);
+			}
+			 
 			newMemberDAO.addNewMember(mProduct);
 
 		} else {
+			// Update age
 			String dateofBirth = mProduct.getdOB();
 			dateofBirth = dateofBirth.split("T")[0];
 
@@ -124,6 +139,21 @@ public class NewMemberController {
 			System.out.print(period.getYears() + " years " + period.getMonths() + " and " + period.getDays() + " days");
 			mProduct.setAge(newage);
 
+			// Update gender
+			String LookingGroomOrBride = mProduct.getGroom_Bride();
+ 			
+			String groom = "groom";
+			
+			if(LookingGroomOrBride.equals(groom)) {
+				String female = "female";
+				mProduct.setGender(female);
+				System.out.print(female);
+			}else {
+				String male = "male";
+				mProduct.setGender(male);
+				System.out.print(male);
+			}
+ 
 			newMemberDAO.update(mProduct);
 		}
 

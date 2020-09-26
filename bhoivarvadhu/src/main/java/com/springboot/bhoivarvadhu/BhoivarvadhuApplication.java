@@ -8,9 +8,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
  
 @SpringBootApplication
+@EnableScheduling
+
 @ComponentScan(basePackages = { "com.springboot.bhoivarvadhu.*", "com.springboot.bhoivarvadhu.config" })
 public class BhoivarvadhuApplication extends SpringBootServletInitializer {
 
@@ -19,7 +22,7 @@ public class BhoivarvadhuApplication extends SpringBootServletInitializer {
 		return new JedisConnectionFactory();
 	}
 
-	@Bean 
+	@Bean    
 	RedisTemplate<String, String> redisTemplate() {
 		RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(jedisConnectionFactory());

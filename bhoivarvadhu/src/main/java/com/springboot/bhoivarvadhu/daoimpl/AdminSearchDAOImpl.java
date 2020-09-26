@@ -8,134 +8,116 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.springboot.bhoivarvadhu.dao.AdminSearchDAO;
 import com.springboot.bhoivarvadhu.dao.NewMemberDAO;
+import com.springboot.bhoivarvadhu.dao.UserDAO;
 import com.springboot.bhoivarvadhu.dto.RegisterForm;
 import com.springboot.bhoivarvadhu.dto.User;
-  
+
 @Repository("AdminSearchDAO")
 @Transactional
 public class AdminSearchDAOImpl implements AdminSearchDAO {
 
+	@Autowired
+	private UserDAO userDAO;
+	
+	
 	@PersistenceContext
 	@Autowired
 	private EntityManager em;
- 
-	@Override
-	public List<User> getAllNewMember(int start) {
-		String query = "FROM User  ORDER BY id DESC ";
+  
 
-		return em.createQuery(query, User.class).getResultList();
-	}
- 
-	@Override
-	public long getNewMemberCount() {
-		Query queryTotal = em.createQuery("Select count(f.id) from User f WHERE Groom_Bride = 'groom'");
-		long countResult = (long) queryTotal.getSingleResult();
-		// System.out.println("Total Count :" +countResult);
-		return countResult;
-	}
-
-	@Override
-	public long getBrideCount() {
-		Query queryTotal = em.createQuery("Select count(f.id) from User f WHERE Groom_Bride = 'bride'");
-		long countResult = (long) queryTotal.getSingleResult();
-		// System.out.println("Total Count :" +countResult);
-		return countResult;
-	}
-	
-	
- 
-	
-	@Override
-	public List<User> getAllBrides(int start) {
-		
-		
-		String query = "FROM User WHERE Groom_Bride = 'bride'";
- 
- 
- 		return em.createQuery(query, User.class)
-				.setFirstResult((start - 1) * 5)
- 				.setMaxResults(5)
-				.getResultList(); 
-	}
- 	@Override
-	public List<User> getAllGrooms(int start) {
-		
-		String query = "FROM User WHERE Groom_Bride = 'groom'";
-
- 
- 		return em.createQuery(query, User.class)
-				.setFirstResult((start - 1) * 5)
- 				.setMaxResults(5)
-				.getResultList(); 
-	}
-	
- 
 	@Override
 	public List<User> getSearchByCity(String[] targetArray) {
-	    System.out.println("targetArrayImpl : " + targetArray);
-		 String city = (String) targetArray[0];
-  	    System.out.println("targetArrayImpl : " + city);
+		System.out.println("targetArrayImpl : " + targetArray);
+		String city = (String) targetArray[0];
+		System.out.println("targetArrayImpl : " + city);
+		String contact = (String) targetArray[1];
+		String name = (String) targetArray[2];
+		String page = (String) targetArray[3];
+		String user_ID = (String) targetArray[4];
+		String email = (String) targetArray[5];
 
-		String page = (String) targetArray[1];
- 		int start=Integer.parseInt(page);  
+//		long contactNo = Long.parseLong(contact);
+		int userID = Integer.parseInt(user_ID);
 
- 	 	String query = "FROM User WHERE(city = :city)";
- 	 	return em
-					.createQuery(query,User.class)
-					.setParameter("city",city)
-					 .setFirstResult((start - 1) * 10)
-	 				.setMaxResults(10)
-					.getResultList();
-	 }	
+		int start = Integer.parseInt(page);
+
+		String query = "FROM User WHERE(city = :city)OR (contact_No_1 = :contact)OR (fullName = :name)OR (email = :email)OR (id = :userID)";
+		return em.createQuery(query, User.class)
+				.setParameter("city", city)
+				.setParameter("contact", contact)
+				.setParameter("name", name)
+				.setParameter("email", email)
+				.setParameter("userID", userID)
+				.setFirstResult((start - 1) * 10)
+				.setMaxResults(10).getResultList();
+	}
 
 	@Override
 	public List<User> getSearchByCityCount(String[] targetArray) {
-	    System.out.println("targetArrayImpl : " + targetArray);
-	 	String city = (String) targetArray[0];
-	 
-		String page = (String) targetArray[1];
-  		int start=Integer.parseInt(page);  
- 	 	String query = "FROM User WHERE(city = :city)";
+		System.out.println("targetArrayImpl : " + targetArray);
+		String city = (String) targetArray[0];
+		System.out.println("targetArrayImpl : " + city);
+		String contact = (String) targetArray[1];
+		String name = (String) targetArray[2];
+		String page = (String) targetArray[3];
+		String user_ID = (String) targetArray[4];
+		String email = (String) targetArray[5];
+
+//		long contactNo = Long.parseLong(contact);
+		int userID = Integer.parseInt(user_ID);
+
+		int start = Integer.parseInt(page);
+
+		String query = "FROM User WHERE(city = :city)OR (contact_No_1 = :contact)OR (fullName = :name)OR (email = :email)OR (id = :userID)";
+		return em.createQuery(query, User.class)
+				.setParameter("city", city)
+				.setParameter("contact", contact)
+				.setParameter("name", name)
+				.setParameter("email", email)
+				.setParameter("userID", userID)
+				.getResultList();
+
+	}
+
+	
+	@Override
+	public int updateClickCounts(String[] targetArray) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userDAO.getByEmail(authentication.getName());
+		
+		int logingID = user.getId();
+		System.out.println("logingcity" + logingID);
+		
+		String click = (String) targetArray[0];
+		int clickCount = Integer.parseInt(click);
+
+		
+		System.out.println("clicksImpl : " + clickCount);
+//		String city = (String) targetArray[0];
  
-	 	return em
-					.createQuery(query,User.class)
-					.setParameter("city",city)
-//					 .setFirstResult((start - 1) * 5)
-	 				 .getResultList();
-	 }	
-	
-
-//	@Override
-//	public List<User> getGroomByID2(int id) { 
-//		String query = "FROM User  ORDER BY id DESC ";
+//		long contactNo = Long.parseLong(contact);
+ 
+//		String query = "update User set clickCount = :clickCount where id =:logingID";
+//		return em.createQuery(query, User.class)
+//				 .executeUpdate();
 //
-//		return em.createQuery(query, User.class).getResultList();
-//	}
-
-	@Override 
-	public List<User> getDetailByID(int id) {
-	 	String query = "FROM User WHERE id = :id";
-	 	return em
-					.createQuery(query,User.class)
-					.setParameter("id",id)	
-					.getResultList();
-	 }	
+		
+		User userInfo= (User)em.find(User.class ,logingID);
+		userInfo.setClickCount(clickCount);
+		return clickCount;
+		
+	}
 	
-	@Override
-	public RegisterForm getid(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public List<User> getsearchresults(int start) {
-		// TODO Auto-generated method stub
-		return null;
-	}
- 	
+
+	
+	
+ 
 }

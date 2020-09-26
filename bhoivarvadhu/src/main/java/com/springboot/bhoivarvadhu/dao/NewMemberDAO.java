@@ -36,15 +36,22 @@ public interface NewMemberDAO {
 //	List<OurProducts> getAllOurProducts();
 //	List<OurProducts> getAllOurProducts1();
 	
-	long getNewMemberCount();
+	List<User> getAllMember(int start);
+	
+	
+	long getGroomCount();
 	
 	long getBrideCount();
-	
+	long getNewMemberCount();
+ 
 	List<User> getDetailByID(int id);
 
 	List<User> getsearchresults(String[] targetArray);
 	List<User> getsearchresultsCount(String[] targetArray);
 
+	List<User> getAllMemberCount(int start);
+
+	   int updateClickCounts(); 
 
   
   }

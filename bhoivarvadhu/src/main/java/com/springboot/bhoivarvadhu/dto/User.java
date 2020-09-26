@@ -26,12 +26,14 @@ import org.springframework.web.multipart.MultipartFile;
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id; 
  
-	private String fullName;
+	private String fullName; 
 	private String dOB;
 	private int age;
+	private int clickCount;
 	private Timestamp dateTime;
 	private String marital_Status;	
 	private String caste;
+	private String gender;
 	private String your_Surname;
 	private String maternal_Uncle_Surname;
 	private String other_Surname;
@@ -98,8 +100,16 @@ import org.springframework.web.multipart.MultipartFile;
 	}
 	
 	
-	
-	
+	public String getGender() {
+		return gender;
+	}
+
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+
 	public String getCode() {
 		return code;
 	}
@@ -141,6 +151,16 @@ import org.springframework.web.multipart.MultipartFile;
 		this.age = age;
 	}
  
+
+	public int getClickCount() {
+		return clickCount;
+	}
+
+
+	public void setClickCount(int clickCount) {
+		this.clickCount = clickCount;
+	}
+
 
 	public Timestamp getDateTime() {
 		return dateTime;
@@ -284,24 +304,36 @@ import org.springframework.web.multipart.MultipartFile;
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getContact_No_1() {
+ 	public String getContact_No_1() {
 		return contact_No_1;
 	}
+
+
 	public void setContact_No_1(String contact_No_1) {
 		this.contact_No_1 = contact_No_1;
 	}
+
+
 	public String getContact_No_2() {
 		return contact_No_2;
 	}
+
+
 	public void setContact_No_2(String contact_No_2) {
 		this.contact_No_2 = contact_No_2;
 	}
+
+
 	public String getLandline_No() {
 		return landline_No;
 	}
+
+
 	public void setLandline_No(String landline_No) {
 		this.landline_No = landline_No;
 	}
+
+
 	public String getZodiac_Sign() {
 		return zodiac_Sign;
 	}
@@ -435,37 +467,33 @@ import org.springframework.web.multipart.MultipartFile;
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", fullName=" + fullName + ", dOB=" + dOB + ", age=" + age + ", dateTime=" + dateTime
-				+ ", marital_Status=" + marital_Status + ", caste=" + caste + ", your_Surname=" + your_Surname
-				+ ", maternal_Uncle_Surname=" + maternal_Uncle_Surname + ", other_Surname=" + other_Surname
-				+ ", maternal_Uncle_Surname_optional=" + maternal_Uncle_Surname_optional + ", job_business="
-				+ job_business + ", annual_Income=" + annual_Income + ", father=" + father + ", education=" + education
-				+ ", occupation=" + occupation + ", groom_Bride=" + groom_Bride + ", mother=" + mother + ", brother="
-				+ brother + ", sister=" + sister + ", married_Brother=" + married_Brother + ", married_Sister="
-				+ married_Sister + ", email=" + email + ", password=" + password + ", permanent_Address="
-				+ permanent_Address + ", current_Address=" + current_Address + ", city=" + city + ", contact_No_1="
-				+ contact_No_1 + ", contact_No_2=" + contact_No_2 + ", landline_No=" + landline_No + ", zodiac_Sign="
-				+ zodiac_Sign + ", mangal=" + mangal + ", nakshatras=" + nakshatras + ", birth_Time=" + birth_Time
-				+ ", birth_Time_HrMin=" + birth_Time_HrMin + ", birth_Place=" + birth_Place + ", nadi=" + nadi
-				+ ", height=" + height + ", weight=" + weight + ", blood_Group=" + blood_Group + ", complexion="
-				+ complexion + ", physical_Disability=" + physical_Disability + ", mention_Physical_Disability="
-				+ mention_Physical_Disability + ", education_Expectation=" + education_Expectation
-				+ ", job_Expectation=" + job_Expectation + ", annual_Income_Expectation=" + annual_Income_Expectation
-				+ ", age_Difference_Expectation=" + age_Difference_Expectation + ", city_Priority_Expectation="
-				+ city_Priority_Expectation + ", other_Expectation=" + other_Expectation + ", role=" + role
-				+ ", enabled=" + enabled + ", code=" + code + ", file=" + file + "]";
+		return "User [id=" + id + ", fullName=" + fullName + ", dOB=" + dOB + ", age=" + age + ", clickCount="
+				+ clickCount + ", dateTime=" + dateTime + ", marital_Status=" + marital_Status + ", caste=" + caste
+				+ ", gender=" + gender + ", your_Surname=" + your_Surname + ", maternal_Uncle_Surname="
+				+ maternal_Uncle_Surname + ", other_Surname=" + other_Surname + ", maternal_Uncle_Surname_optional="
+				+ maternal_Uncle_Surname_optional + ", job_business=" + job_business + ", annual_Income="
+				+ annual_Income + ", father=" + father + ", education=" + education + ", occupation=" + occupation
+				+ ", groom_Bride=" + groom_Bride + ", mother=" + mother + ", brother=" + brother + ", sister=" + sister
+				+ ", married_Brother=" + married_Brother + ", married_Sister=" + married_Sister + ", email=" + email
+				+ ", password=" + password + ", permanent_Address=" + permanent_Address + ", current_Address="
+				+ current_Address + ", city=" + city + ", contact_No_1=" + contact_No_1 + ", contact_No_2="
+				+ contact_No_2 + ", landline_No=" + landline_No + ", zodiac_Sign=" + zodiac_Sign + ", mangal=" + mangal
+				+ ", nakshatras=" + nakshatras + ", birth_Time=" + birth_Time + ", birth_Time_HrMin=" + birth_Time_HrMin
+				+ ", birth_Place=" + birth_Place + ", nadi=" + nadi + ", height=" + height + ", weight=" + weight
+				+ ", blood_Group=" + blood_Group + ", complexion=" + complexion + ", physical_Disability="
+				+ physical_Disability + ", mention_Physical_Disability=" + mention_Physical_Disability
+				+ ", education_Expectation=" + education_Expectation + ", job_Expectation=" + job_Expectation
+				+ ", annual_Income_Expectation=" + annual_Income_Expectation + ", age_Difference_Expectation="
+				+ age_Difference_Expectation + ", city_Priority_Expectation=" + city_Priority_Expectation
+				+ ", other_Expectation=" + other_Expectation + ", role=" + role + ", enabled=" + enabled + ", code="
+				+ code + ", file=" + file + "]";
 	}
 
-
-	 
+ 
 
 
  
-	 
-	
-
- 
-	
+  	
 //	@JsonBackReference
 // 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //	private Cart cart;
