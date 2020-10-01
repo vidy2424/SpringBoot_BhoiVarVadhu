@@ -145,13 +145,14 @@ public class NewMemberDAOImpl implements NewMemberDAO {
 		
 		String query = "FROM User ORDER BY dateTime DESC";
  
- 
+		
  		return em.createQuery(query, User.class)
 				.setFirstResult((start - 1) * 20)
  				.setMaxResults(20)
 				.getResultList(); 
 	}
 
+	
 	@Override
 	public List<User> getAllMemberCount(int start) {
 		String query = "FROM User ORDER BY dateTime DESC";
@@ -159,6 +160,13 @@ public class NewMemberDAOImpl implements NewMemberDAO {
 			 	.getResultList();
 	}
  	
+	@Override
+	public List<User> getAccount_Creation_DATEByID(int id) {
+		String query = "FROM User WHERE id = :id";
+ 		return em.createQuery(query, User.class)
+ 				.setParameter("id",id)
+			 	.getResultList();
+	}
  	
 	@Override
 	public List<User> getsearchresults(String[] targetArray) {

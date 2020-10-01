@@ -2,6 +2,7 @@ package com.springboot.bhoivarvadhu.dto;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -30,7 +31,9 @@ import org.springframework.web.multipart.MultipartFile;
 	private String dOB;
 	private int age;
 	private int clickCount;
-	private Timestamp dateTime;
+	//private Timestamp dateTime;
+	private Date dateTime;
+
 	private String marital_Status;	
 	private String caste;
 	private String gender;
@@ -41,7 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 	private String job_business ;
 	private String annual_Income;
 	private String father;
-	private String education;
+	private String education; 
 	private String occupation;
 	private String groom_Bride;
 	private String mother;
@@ -160,14 +163,14 @@ import org.springframework.web.multipart.MultipartFile;
 	public void setClickCount(int clickCount) {
 		this.clickCount = clickCount;
 	}
+ 
 
-
-	public Timestamp getDateTime() {
+	public Date getDateTime() {
 		return dateTime;
 	}
 
 
-	public void setDateTime(Timestamp dateTime) {
+	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
 	}
 
@@ -286,7 +289,10 @@ import org.springframework.web.multipart.MultipartFile;
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getPermanent_Address() {
+	
+	
+	
+ 	public String getPermanent_Address() {
 		return permanent_Address;
 	}
 	public void setPermanent_Address(String permanent_Address) {
@@ -489,11 +495,11 @@ import org.springframework.web.multipart.MultipartFile;
 				+ code + ", file=" + file + "]";
 	}
 
+
  
 
 
  
-  	
 //	@JsonBackReference
 // 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //	private Cart cart;

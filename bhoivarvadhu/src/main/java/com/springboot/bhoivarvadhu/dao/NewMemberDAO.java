@@ -46,6 +46,8 @@ public interface NewMemberDAO {
  
 	List<User> getDetailByID(int id);
 
+	List<User> getAccount_Creation_DATEByID(int id);
+	
 	List<User> getsearchresults(String[] targetArray);
 	List<User> getsearchresultsCount(String[] targetArray);
 

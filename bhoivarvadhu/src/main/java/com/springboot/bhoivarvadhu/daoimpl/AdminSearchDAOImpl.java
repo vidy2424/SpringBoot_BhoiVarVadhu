@@ -25,12 +25,10 @@ public class AdminSearchDAOImpl implements AdminSearchDAO {
 
 	@Autowired
 	private UserDAO userDAO;
-	
-	
+
 	@PersistenceContext
 	@Autowired
 	private EntityManager em;
-  
 
 	@Override
 	public List<User> getSearchByCity(String[] targetArray) {
@@ -40,12 +38,13 @@ public class AdminSearchDAOImpl implements AdminSearchDAO {
 		String contact = (String) targetArray[1];
 		String name = (String) targetArray[2];
 		String page = (String) targetArray[3];
-		String user_ID = (String) targetArray[4];
-		String email = (String) targetArray[5];
+		
+		 String user_ID = (String) targetArray[4];
+		 String email = (String) targetArray[5];
 
 //		long contactNo = Long.parseLong(contact);
-		int userID = Integer.parseInt(user_ID);
-
+		 int userID = Integer.parseInt(user_ID);
+		 
 		int start = Integer.parseInt(page);
 
 		String query = "FROM User WHERE(city = :city)OR (contact_No_1 = :contact)OR (fullName = :name)OR (email = :email)OR (id = :userID)";
@@ -76,48 +75,36 @@ public class AdminSearchDAOImpl implements AdminSearchDAO {
 		int start = Integer.parseInt(page);
 
 		String query = "FROM User WHERE(city = :city)OR (contact_No_1 = :contact)OR (fullName = :name)OR (email = :email)OR (id = :userID)";
-		return em.createQuery(query, User.class)
-				.setParameter("city", city)
-				.setParameter("contact", contact)
-				.setParameter("name", name)
-				.setParameter("email", email)
-				.setParameter("userID", userID)
-				.getResultList();
+		return em.createQuery(query, User.class).setParameter("city", city).setParameter("contact", contact)
+				.setParameter("name", name).setParameter("email", email).setParameter("userID", userID).getResultList();
 
 	}
 
-	
 	@Override
 	public int updateClickCounts(String[] targetArray) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = userDAO.getByEmail(authentication.getName());
-		
+
 		int logingID = user.getId();
 		System.out.println("logingcity" + logingID);
-		
+
 		String click = (String) targetArray[0];
 		int clickCount = Integer.parseInt(click);
 
-		
 		System.out.println("clicksImpl : " + clickCount);
 //		String city = (String) targetArray[0];
- 
+
 //		long contactNo = Long.parseLong(contact);
- 
+
 //		String query = "update User set clickCount = :clickCount where id =:logingID";
 //		return em.createQuery(query, User.class)
 //				 .executeUpdate();
 //
-		
-		User userInfo= (User)em.find(User.class ,logingID);
+
+		User userInfo = (User) em.find(User.class, logingID);
 		userInfo.setClickCount(clickCount);
 		return clickCount;
-		
+
 	}
-	
 
-
-	
-	
- 
 }

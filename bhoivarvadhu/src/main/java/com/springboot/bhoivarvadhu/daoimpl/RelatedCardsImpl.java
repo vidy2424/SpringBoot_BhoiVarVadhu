@@ -18,28 +18,23 @@ public class RelatedCardsImpl implements RelatedCardsDAO {
 
 	@PersistenceContext
 	@Autowired
-	private EntityManager em; 
-	
-	@Override
-	public List<User>  getGroomByCity(String logincity) {
-		String query = "FROM User WHERE city = :logincity";
-		System.out.println("hiiiii" + query);
+	private EntityManager em;
 
-		return em
-				.createQuery(query,User.class)
- 				.setParameter("logincity",logincity)
+	@Override
+	public List<User> getGroomByCity(String logincity, String loginGroom_Bride) {
+		String query = "FROM User WHERE (city = :logincity) AND (groom_Bride = :loginGroom_Bride) ";
+		return em.createQuery(query, User.class)
+				.setParameter("logincity", logincity)
+				.setParameter("loginGroom_Bride", loginGroom_Bride)
 				.getResultList();
 	}
-	
-	@Override
-	public List<User>  getRecentlyaddedMember() {
-		String query = "FROM User ORDER BY dateTime DESC";
-		System.out.println("hiiiii" + query);
 
-		return em
-				.createQuery(query,User.class)
- 				.getResultList();
+	@Override
+	public List<User> getRecentlyaddedMember(String loginGroom_Bride) {
+		String query = "FROM User WHERE groom_Bride = :loginGroom_Bride ORDER BY dateTime DESC";
+		return em.createQuery(query, User.class)
+				.setParameter("loginGroom_Bride", loginGroom_Bride)
+				.getResultList();
 	}
-	
-	
+
 }

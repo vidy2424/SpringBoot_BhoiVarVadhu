@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -100,7 +101,7 @@ public class NewMemberController {
 			System.out.print(period.getYears() + " years " + period.getMonths() + " and " + period.getDays() + " days");
 
 			mProduct.setPassword(passwordEncoder.encode(mProduct.getPassword()));
-
+ 			 
 			// set age
 			mProduct.setAge(newage);
 			;
@@ -113,7 +114,7 @@ public class NewMemberController {
 				String female = "female";
 				mProduct.setGender(female);
 				System.out.print(female);
-			}else {
+			}else { 
 				String male = "male";
 				mProduct.setGender(male);
 				System.out.print(male);
@@ -122,6 +123,28 @@ public class NewMemberController {
 			newMemberDAO.addNewMember(mProduct);
 
 		} else {
+
+			//get id of edit user and get date of registration
+			int id = mProduct.getId();
+			
+			List<User> account_Creation_DATEByID = newMemberDAO.getAccount_Creation_DATEByID(id);
+		    System.out.println("account_Creation_DATEByID : " + account_Creation_DATEByID);
+ 
+		    //put list into map to get dateTime
+	        Map<String, Object> map = new HashMap<>(); 
+
+	        for (User stu : account_Creation_DATEByID) { 
+	            map.put(stu.getFullName(), stu.getDateTime()); 
+			    System.out.println("getDateTime : " +stu.getDateTime());
+			    
+			    //set registration date
+				mProduct.setDateTime(stu.getDateTime());
+
+	        }
+ 
+			mProduct.setPassword(passwordEncoder.encode(mProduct.getPassword()));
+
+			
 			// Update age
 			String dateofBirth = mProduct.getdOB();
 			dateofBirth = dateofBirth.split("T")[0];

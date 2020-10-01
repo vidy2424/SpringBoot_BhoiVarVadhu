@@ -122,9 +122,9 @@ public class PageController {
 		userdetailMap.put("city_Priority_Expectation", user.getCity_Priority_Expectation());
 		userdetailMap.put("other_Expectation", user.getOther_Expectation());
 		userdetailMap.put("role", user.getRole());
+		userdetailMap.put("gender", user.getGender());		  
 		userdetailMap.put("code", user.getCode());
-		userdetailMap.put("clickCount", user.getClickCount());		
-		
+		userdetailMap.put("clickCount", user.getClickCount());		  
 		
 		return userdetailMap;
 

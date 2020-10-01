@@ -73,7 +73,7 @@ public class AdminSearchController {
 			System.out.println("value : " + response.get(key));
 //		    String value = (String) response.get(key);
 		}
-
+ 		
 		List<User> planinfo = adminSearchDAO.getSearchByCity(targetArray);
 		List<User> count = adminSearchDAO.getSearchByCityCount(targetArray);
 

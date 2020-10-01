@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -14,6 +15,7 @@ import java.time.ZoneId;
 import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import org.apache.commons.net.ntp.NTPUDPClient;
 import org.apache.commons.net.ntp.TimeInfo;
@@ -36,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
+import com.fasterxml.jackson.annotation.JsonFormat.Value;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -137,21 +141,21 @@ public class GroomBrideController {
 
 		LocalDate TodayDate = LocalDate.parse(d);
 
-	 		System.out.println("Atomic time:\t" + atomicNtpTime + "  " + atomicNtpTime.toDateString());
+		System.out.println("Atomic time:\t" + atomicNtpTime + "  " + atomicNtpTime.toDateString());
 
 		/** On what day of each month should the count be reset? 1..28 */
-		final int DAY_OF_MONTH_TO_RESET_COUNT = 26;
+		final int DAY_OF_MONTH_TO_RESET_COUNT = 1;
 		/** In what time zone should above day-of-month be interpreted? */
 		final ZoneId timeZone = ZoneId.of("Asia/Pontianak");
 
 		// substitute reset_date from DB here
-		LocalDate lastResetDate = LocalDate.of(2020, Month.SEPTEMBER, 24);
-		
+		LocalDate lastResetDate = LocalDate.of(2020, Month.SEPTEMBER, 1);
+
 		System.out.println("TodayDate time:\t" + TodayDate);
 		System.out.println("lastResetDate time:\t" + lastResetDate);
 
-		LocalDate nextResetDate = lastResetDate.plusDays(1).withDayOfMonth(DAY_OF_MONTH_TO_RESET_COUNT);
-		 
+		LocalDate nextResetDate = lastResetDate.plusMonths(1).withDayOfMonth(DAY_OF_MONTH_TO_RESET_COUNT);
+
 		System.out.println("nextResetDate time:\t" + nextResetDate);
 
 		// "not after today" means today or before today
@@ -160,8 +164,12 @@ public class GroomBrideController {
 			System.out.println("Reset the count and update the reset_date in the database");
 
 			int planinfo2 = newMemberDAO.updateClickCounts();
-
 		}
+		
+        List<LocalDate> nextCountResetDate = new ArrayList<>(); 
+        nextCountResetDate.add(nextResetDate);
+		System.out.println("nextCountResetDate time:\t" + nextCountResetDate);
+		STACK.push(nextCountResetDate);
 
 		return STACK;
 	}

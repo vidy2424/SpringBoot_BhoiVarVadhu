@@ -31,8 +31,11 @@ public class RelatedCardsController {
 		
 		String logingcity = user.getCity();
 		System.out.println("logingcity" + logingcity);
+		String loginGroom_Bride = user.getGroom_Bride();
+		System.out.println("loginGroom_Bride" + loginGroom_Bride);
 
-		List<User> GroomByCity = relatedCardsDAO.getGroomByCity(logingcity);
+		
+		List<User> GroomByCity = relatedCardsDAO.getGroomByCity(logingcity,loginGroom_Bride);
 		 
 		
 		int logingid = user.getId();
@@ -54,8 +57,9 @@ public class RelatedCardsController {
 		User user = userDAO.getByEmail(authentication.getName());
 		
 		String logincity = user.getCity();
-		System.out.println("logincity" + logincity);
- 		List<User> RecentlyaddedMember = relatedCardsDAO.getRecentlyaddedMember();
+		String loginGroom_Bride = user.getGroom_Bride();
+		System.out.println("loginGroom_Bride" + loginGroom_Bride);
+ 		List<User> RecentlyaddedMember = relatedCardsDAO.getRecentlyaddedMember(loginGroom_Bride);
   
 		// List<SignUpUser> sign15 = signupDAO.loginbyName(signUpUser.getName());
 
